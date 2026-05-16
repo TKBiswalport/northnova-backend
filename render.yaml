@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: northnova-backend
+    runtime: node
+    buildCommand: npm install
+    startCommand: node server.js
+    envVars:
+      - key: EMAIL_USER
+        value: tbiswal573@gmail.com
+      - key: EMAIL_PASS
+        sync: false
+      - key: PORT
+        value: 5000
