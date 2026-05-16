@@ -12,7 +12,6 @@ app.use(cors({
       'http://localhost:5174',
       'http://localhost:5175',
     ]
-    // Allow any Vercel deployment URL or no origin (Postman etc)
     if (!origin || allowed.includes(origin) || origin.endsWith('.vercel.app')) {
       callback(null, true)
     } else {
@@ -24,13 +23,11 @@ app.use(cors({
 
 app.use(express.json())
 app.use('/api/contact', contactRoute)
-app.get('/', (req, res) => res.send('NorthNova API running'))
+app.get('/', (req, res) => res.json({ status: 'NorthNova API running' }))
 
 const PORT = process.env.PORT || 5000
 app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`)
-  console.log(`Sending mail as: ${process.env.EMAIL_USER}`)
-  if (!process.env.EMAIL_PASS || process.env.EMAIL_PASS === 'your_16_char_app_password_here') {
-    console.warn('WARNING: EMAIL_PASS is not set in .env — emails will fail!')
-  }
+  console.log(`Server running on port ${PORT}`)
+  console.log(`EMAIL_USER: ${process.env.EMAIL_USER || 'NOT SET'}`)
+  console.log(`EMAIL_PASS: ${process.env.EMAIL_PASS ? 'SET' : 'NOT SET — emails will fail'}`)
 })
