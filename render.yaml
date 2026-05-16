@@ -6,8 +6,6 @@ services:
     startCommand: node server.js
     envVars:
       - key: EMAIL_USER
-        value: tbiswal573@gmail.com
+        value: jayatripathi0611@gmail.com
       - key: EMAIL_PASS
         sync: false
-      - key: PORT
-        value: 5000

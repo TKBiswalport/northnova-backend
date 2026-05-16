@@ -19,7 +19,7 @@ router.post('/', async (req, res) => {
 
   const mailOptions = {
     from: `"NorthNova Contact" <${process.env.EMAIL_USER}>`,
-    to: 'tbiswal573@gmail.com',
+    to: 'jayatripathi0611@gmail.com',
     subject: `New Appointment Request — ${name}`,
     html: `
       <div style="font-family: 'Helvetica Neue', Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #0a0a0a; color: #ffffff; border-radius: 12px; overflow: hidden;">
