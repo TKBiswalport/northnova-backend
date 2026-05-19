@@ -10,7 +10,10 @@ router.post('/', async (req, res) => {
   }
 
   const transporter = nodemailer.createTransport({
-    service: 'gmail',
+    host: 'smtp.gmail.com',
+    port: 587,
+    secure: false,
+    family: 4,
     auth: {
       user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASS
@@ -58,7 +61,7 @@ router.post('/', async (req, res) => {
     await transporter.sendMail(mailOptions)
     res.status(200).json({ message: 'Your inquiry has been sent. We will be in touch shortly.' })
   } catch (err) {
-    console.error(err)
+    console.error('Mail error:', err.message)
     res.status(500).json({ message: 'Failed to send message. Please try again.' })
   }
 })
