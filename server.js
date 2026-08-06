@@ -11,6 +11,8 @@ app.use(cors({
       'http://localhost:5173',
       'http://localhost:5174',
       'http://localhost:5175',
+      'https://sorayalabs.com',
+      'https://www.sorayalabs.com',
     ]
     if (!origin || allowed.includes(origin) || origin.endsWith('.vercel.app')) {
       callback(null, true)
@@ -23,7 +25,7 @@ app.use(cors({
 
 app.use(express.json())
 app.use('/api/contact', contactRoute)
-app.get('/', (req, res) => res.json({ status: 'NorthNova API running' }))
+app.get('/', (req, res) => res.json({ status: 'Soraya Labs API running' }))
 
 const PORT = process.env.PORT || 5000
 app.listen(PORT, () => {

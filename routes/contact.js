@@ -11,15 +11,18 @@ router.post('/', async (req, res) => {
 
   const resend = new Resend(process.env.RESEND_API_KEY)
 
+  const fromAddress = process.env.RESEND_FROM || 'Soraya Labs Contact <onboarding@resend.dev>'
+  const notifyTo = process.env.CONTACT_NOTIFY_EMAIL || 'jayatripathi0611@gmail.com'
+
   try {
     await resend.emails.send({
-      from: 'NorthNova Contact <onboarding@resend.dev>',
-      to: 'jayatripathi0611@gmail.com',
+      from: fromAddress,
+      to: notifyTo,
       subject: `New Appointment Request — ${name}`,
       html: `
         <div style="font-family: 'Helvetica Neue', Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #0a0a0a; color: #ffffff; border-radius: 12px; overflow: hidden;">
           <div style="background: linear-gradient(135deg, #C9A227, #a07d1a); padding: 32px; text-align: center;">
-            <h1 style="margin: 0; font-size: 28px; letter-spacing: 4px; color: #000;">NORTHNOVA</h1>
+            <h1 style="margin: 0; font-size: 28px; letter-spacing: 4px; color: #000;">SORAYA LABS</h1>
             <p style="margin: 8px 0 0; color: #000; font-size: 13px; letter-spacing: 2px; text-transform: uppercase;">New Appointment Request</p>
           </div>
           <div style="padding: 40px 32px;">
@@ -43,13 +46,45 @@ router.post('/', async (req, res) => {
             </table>
           </div>
           <div style="background: #111; padding: 20px 32px; text-align: center; border-top: 1px solid #1f1f1f;">
-            <p style="margin: 0; color: #555; font-size: 12px; letter-spacing: 1px;">© 2026 NorthNova Digital — Canada</p>
+            <p style="margin: 0; color: #555; font-size: 12px; letter-spacing: 1px;">© 2026 Soraya Labs — Canada</p>
           </div>
         </div>
       `
     })
 
-    res.status(200).json({ message: 'Your inquiry has been sent. We will be in touch shortly.' })
+    try {
+      await resend.emails.send({
+        from: fromAddress,
+        to: email,
+        subject: 'Thank you for contacting Soraya Labs',
+        html: `
+          <div style="font-family: 'Helvetica Neue', Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #0a0a0a; color: #ffffff; border-radius: 12px; overflow: hidden;">
+            <div style="background: linear-gradient(135deg, #C9A227, #a07d1a); padding: 32px; text-align: center;">
+              <h1 style="margin: 0; font-size: 28px; letter-spacing: 4px; color: #000;">SORAYA LABS</h1>
+              <p style="margin: 8px 0 0; color: #000; font-size: 13px; letter-spacing: 2px; text-transform: uppercase;">Thank You</p>
+            </div>
+            <div style="padding: 40px 32px;">
+              <p style="color: #fff; font-size: 16px; line-height: 1.7; margin: 0 0 20px;">Hi ${name},</p>
+              <p style="color: #ccc; font-size: 15px; line-height: 1.8; margin: 0 0 20px;">
+                Thank you for contacting us. We have received your inquiry and will reach out within <strong style="color: #C9A227;">24 hours</strong>.
+              </p>
+              <p style="color: #888; font-size: 14px; line-height: 1.7; margin: 0;">
+                If your request is urgent, feel free to reply to this email or message us on WhatsApp.
+              </p>
+            </div>
+            <div style="background: #111; padding: 20px 32px; text-align: center; border-top: 1px solid #1f1f1f;">
+              <p style="margin: 0; color: #555; font-size: 12px;">© 2026 Soraya Labs — Canada</p>
+            </div>
+          </div>
+        `,
+      })
+    } catch (autoReplyErr) {
+      console.error('Auto-reply email error:', autoReplyErr.message)
+    }
+
+    res.status(200).json({
+      message: 'Thank you for contacting us. We will reach out within 24 hours.',
+    })
   } catch (err) {
     console.error('Mail error:', err.message)
     res.status(500).json({ message: 'Failed to send message. Please try again.' })

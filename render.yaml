@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: northnova-backend
+    name: soraya-labs-backend
     runtime: node
     buildCommand: npm install
     startCommand: node server.js
