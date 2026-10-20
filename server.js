@@ -30,6 +30,11 @@ app.get('/', (req, res) => res.json({ status: 'Soraya Labs API running' }))
 const PORT = process.env.PORT || 5000
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
-  console.log(`EMAIL_USER: ${process.env.EMAIL_USER || 'NOT SET'}`)
-  console.log(`EMAIL_PASS: ${process.env.EMAIL_PASS ? 'SET' : 'NOT SET — emails will fail'}`)
+  if (process.env.RESEND_API_KEY) {
+    console.log('Mail provider: Resend')
+  } else if (process.env.EMAIL_USER && process.env.EMAIL_PASS) {
+    console.log(`Mail provider: Gmail SMTP (${process.env.EMAIL_USER})`)
+  } else {
+    console.log('Mail provider: NOT CONFIGURED — set RESEND_API_KEY or EMAIL_USER/EMAIL_PASS')
+  }
 })
