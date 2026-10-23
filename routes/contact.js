@@ -112,7 +112,7 @@ router.post('/', async (req, res) => {
     return res.status(500).json({ message: 'Failed to send message. Please try again.' })
   }
 
-  const notifyTo = process.env.CONTACT_NOTIFY_EMAIL || 'jayatripathi0611@gmail.com'
+  const notifyTo = process.env.CONTACT_NOTIFY_EMAIL || 'jayadirections@gmail.com'
   const visitorEmail = String(email).trim()
   const safe = {
     name: escapeHtml(name),
